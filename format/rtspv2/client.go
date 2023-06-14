@@ -232,8 +232,8 @@ func Dial(options RTSPClientOptions) (*RTSPClient, error) {
 		}
 		client.chTMP += 2
 	}
-	//test := map[string]string{"Scale": "1.000000", "Speed": "1.000000", "Range": "clock=20210929T210000Z-20210929T211000Z"}
-	err = client.request(PLAY, nil, client.control, false, false)
+
+	err = client.request(PLAY, map[string]string{"Range": "npt=0.000-"}, client.pURL.String(), false, false)
 	if err != nil {
 		return nil, err
 	}
@@ -945,14 +945,14 @@ func (client *RTSPClient) CodecUpdateVPS(val []byte) {
 
 }
 
-//Println mini logging functions
+// Println mini logging functions
 func (client *RTSPClient) Println(v ...interface{}) {
 	if client.options.Debug {
 		log.Println(v)
 	}
 }
 
-//binSize
+// binSize
 func binSize(val int) []byte {
 	buf := make([]byte, 4)
 	binary.BigEndian.PutUint32(buf, uint32(val))
